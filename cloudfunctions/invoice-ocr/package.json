@@ -1,0 +1,11 @@
+{
+  "name": "invoice-ocr",
+  "version": "1.0.0",
+  "license": "MIT",
+  "description": "PaddleOCR cloud function for invoice reimbursement mini program",
+  "main": "index.js",
+  "dependencies": {
+    "tencentcloud-sdk-nodejs": "^4.0.985",
+    "wx-server-sdk": "^3.0.1"
+  }
+}

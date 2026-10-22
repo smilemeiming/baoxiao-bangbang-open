@@ -1,0 +1,40 @@
+{
+  "name": "baoxiao-bangbang-desktop",
+  "version": "0.1.1",
+  "description": "发票识别与报销管理工具：Windows 本地 OCR、发票归档和 Excel 报表",
+  "license": "MIT",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test --experimental-test-isolation=none test/*.test.js",
+    "prepare:assets": "node scripts/prepare-assets.js",
+    "dist": "npm run prepare:assets && electron-builder --win zip --x64 && node scripts/write-checksum.js",
+    "pack": "npm run prepare:assets && electron-builder --win dir --x64"
+  },
+  "dependencies": {
+    "tesseract.js": "7.0.0"
+  },
+  "devDependencies": {
+    "electron": "45.0.0",
+    "electron-builder": "26.15.3",
+    "pdfjs-dist": "6.4.299",
+    "@tesseract.js-data/chi_sim": "1.0.0",
+    "@tesseract.js-data/eng": "1.0.0"
+  },
+  "build": {
+    "appId": "com.baoxiaobangbang.desktop",
+    "productName": "BaoxiaoBangbang",
+    "asar": false,
+    "npmRebuild": false,
+    "directories": { "output": "dist" },
+    "files": ["main.js", "preload.js", "lib/**", "ui/**", "resources/**", "scripts/smoke-runner.js", "package.json", "THIRD_PARTY_NOTICES.txt"],
+    "extraResources": [
+      { "from": "../utils", "to": "shared/utils", "filter": ["categories.js", "invoice-store.js", "report.js"] },
+      { "from": "../cloudfunctions/invoice-ocr/normalizer.js", "to": "shared/normalizer.js" },
+      { "from": "../LICENSE", "to": "LICENSE" }
+    ],
+    "win": { "target": ["zip"], "signAndEditExecutable": false },
+    "artifactName": "BaoxiaoBangbang-${version}-win-${arch}.${ext}"
+  }
+}

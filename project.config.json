@@ -1,0 +1,146 @@
+{
+  "description": "报销帮帮小程序",
+  "miniprogramRoot": "./",
+  "cloudfunctionRoot": "cloudfunctions/",
+  "projectname": "报销帮帮",
+  "appid": "touristappid",
+  "compileType": "miniprogram",
+  "setting": {
+    "urlCheck": true,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": true,
+    "newFeature": true,
+    "coverView": true,
+    "autoAudits": false,
+    "checkSiteMap": true,
+    "uploadWithSourceMap": false,
+    "useMultiFrameRuntime": true,
+    "useApiHook": true,
+    "useApiHostProcess": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "compileWorklet": false,
+    "uglifyFileName": false,
+    "packNpmManually": false,
+    "packNpmRelationList": [],
+    "minifyWXSS": true,
+    "minifyWXML": true,
+    "localPlugins": false,
+    "disableUseStrict": false,
+    "useCompilerPlugins": false,
+    "condition": false,
+    "swc": false,
+    "disableSWC": true
+  },
+  "condition": {},
+  "simulatorPluginLibVersion": {},
+  "packOptions": {
+    "ignore": [
+      {
+        "value": "desktop",
+        "type": "folder"
+      },
+      {
+        "value": "sample-invoices",
+        "type": "folder"
+      },
+      {
+        "value": "scripts",
+        "type": "folder"
+      },
+      {
+        "value": "README.md",
+        "type": "file"
+      },
+      {
+        "value": "ACCEPTANCE.md",
+        "type": "file"
+      },
+      {
+        "value": "AI开发小程序免费指南.md",
+        "type": "file"
+      },
+      {
+        "value": "AI驱动的小程序开发实战教程.md",
+        "type": "file"
+      },
+      {
+        "value": "rea",
+        "type": "folder"
+      },
+      {
+        "value": ".local",
+        "type": "folder"
+      },
+      {
+        "value": ".github",
+        "type": "folder"
+      },
+      {
+        "value": ".agents",
+        "type": "folder"
+      },
+      {
+        "value": ".claude",
+        "type": "folder"
+      },
+      {
+        "value": "docs",
+        "type": "folder"
+      },
+      {
+        "value": "release",
+        "type": "folder"
+      },
+      {
+        "value": "cloudfunctions",
+        "type": "folder"
+      },
+      {
+        "value": "node_modules",
+        "type": "folder"
+      },
+      {
+        "value": "小程序开发维护手册.md",
+        "type": "file"
+      },
+      {
+        "value": "config.example.js",
+        "type": "file"
+      },
+      {
+        "value": "package.json",
+        "type": "file"
+      },
+      {
+        "value": "package-lock.json",
+        "type": "file"
+      },
+      {
+        "value": "LICENSE",
+        "type": "file"
+      },
+      {
+        "value": "CONTRIBUTING.md",
+        "type": "file"
+      },
+      {
+        "value": "SECURITY.md",
+        "type": "file"
+      },
+      {
+        "value": "THIRD_PARTY_NOTICES.md",
+        "type": "file"
+      }
+    ],
+    "include": []
+  },
+  "editorSetting": {},
+  "libVersion": "3.16.1",
+  "cloudfunctionTemplateRoot": "cloudfunctionTemplate/"
+}

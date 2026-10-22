@@ -1,0 +1,107 @@
+<view class="safe-page upload-page">
+  <view class="recognition-status {{busy ? 'visible' : ''}}">
+    <view class="status-spinner"></view>
+    <text>正在识别并整理发票</text>
+  </view>
+
+  <view class="demo-entry surface">
+    <text class="empty-copy muted">首次使用可载入虚构数据，体验分类、编辑和报表。示例不含原件。</text>
+    <button class="wide-button" disabled="{{busy || retryingAll}}" bindtap="loadDemoData">载入虚构示例数据</button>
+  </view>
+
+  <view class="section-head category-head">
+    <view>
+      <text class="section-title">收支项目概览</text>
+      <text class="section-copy muted">已归档发票的数量和金额</text>
+    </view>
+  </view>
+
+  <view class="category-grid">
+    <view
+      class="category-card surface"
+      wx:for="{{categoryRows}}"
+      wx:key="id"
+      data-id="{{item.id}}"
+      style="border-left-color: {{item.color}};"
+      hover-class="category-card-active"
+      hover-stay-time="100"
+      bindtap="openCategory"
+    >
+      <view class="category-top">
+        <text class="overview-icon">{{item.icon}}</text>
+        <text class="overview-name">{{item.name}}</text>
+      </view>
+      <view class="category-bottom">
+        <text class="overview-count muted">{{item.count}} 张</text>
+        <text class="overview-amount amount">¥{{item.amountText}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section-head">
+    <view>
+      <text class="section-title">本次识别</text>
+      <text class="section-copy muted">从首页扫描或上传后的结果</text>
+    </view>
+    <view class="section-summary">
+      <text wx:if="{{recognitionProvider}}" class="provider-summary">{{recognitionProvider}}</text>
+      <text wx:if="{{failedCount > 0}}" class="failed-count">⚠ {{failedCount}} 张失败</text>
+    </view>
+  </view>
+
+  <view wx:if="{{!lastResults.length}}" class="empty surface">
+    <text class="empty-title">暂无本次识别</text>
+    <text class="empty-copy muted">请从首页选择“扫描报销”或“上传报销”。</text>
+  </view>
+
+  <view wx:else class="result-list">
+    <view wx:if="{{failedCount > 0}}" class="retry-all-bar">
+      <text class="retry-all-hint">有 {{failedCount}} 张识别失败，可重试</text>
+      <button class="retry-all-btn" loading="{{retryingAll}}" disabled="{{retryingAll}}" bindtap="retryAllFailed">全部重试</button>
+    </view>
+    <view class="result-card surface" wx:for="{{lastResults}}" wx:key="id">
+      <view class="result-top">
+        <view class="category-icon" style="background: {{item.categoryColor}};">{{item.categoryIcon}}</view>
+        <view class="result-main">
+          <text class="result-title">{{item.merchant}}</text>
+          <text class="result-meta muted">{{item.fileName}}</text>
+        </view>
+        <view class="result-status">
+          <text class="ocr-status {{item.ocrStatusClass}}">{{item.ocrStatusText}}</text>
+          <text wx:if="{{item.confidence > 0}}" class="confidence">{{item.confidence}}%</text>
+        </view>
+      </view>
+
+      <view wx:if="{{item.ocrErrorText}}" class="ocr-error">
+        <text class="ocr-error-title">识别失败原因</text>
+        <text class="ocr-error-copy">{{item.ocrErrorText}}</text>
+      </view>
+
+      <view class="field-grid">
+        <view class="field">
+          <text class="field-label muted">金额</text>
+          <text class="field-value amount">{{item.amountDisplay}}</text>
+        </view>
+        <view class="field">
+          <text class="field-label muted">日期</text>
+          <text class="field-value">{{item.dateDisplay}}</text>
+        </view>
+        <view class="field">
+          <text class="field-label muted">收支项目</text>
+          <text class="field-value">{{item.categoryName}}</text>
+        </view>
+        <view class="field">
+          <text class="field-label muted">票号</text>
+          <text class="field-value mono">{{item.invoiceNoDisplay}}</text>
+        </view>
+      </view>
+
+      <view wx:if="{{item.pairLabel}}" class="paired-line">{{item.folderName}}</view>
+      <view wx:if="{{item.ocrErrorText}}" class="retry-row">
+        <button class="retry-single-btn" data-id="{{item.id}}" catchtap="retrySingle">重新识别</button>
+      </view>
+    </view>
+  </view>
+
+  <button wx:if="{{lastResults.length}}" class="wide-button" bindtap="goInvoices">进入发票库</button>
+</view>

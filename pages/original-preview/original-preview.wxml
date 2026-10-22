@@ -1,0 +1,54 @@
+<view class="safe-page original-page">
+  <view wx:if="{{loading}}" class="surface state-card">
+    <text class="state-title">正在准备原件</text>
+    <text class="state-copy muted">正在检查本地归档和云端备份。</text>
+  </view>
+
+  <view wx:elif="{{missing}}" class="surface state-card">
+    <text class="state-title">原件不可用</text>
+    <text class="state-copy muted">{{errorMessage}}</text>
+    <button class="primary-button" bindtap="goBack">返回</button>
+  </view>
+
+  <view wx:else>
+    <view class="surface info-card">
+      <text class="file-name">{{fileName}}</text>
+    </view>
+
+    <view wx:if="{{isImage}}" class="image-wrap">
+      <view class="zoom-toolbar">
+        <button class="zoom-button" bindtap="zoomOut">-</button>
+        <button class="zoom-button zoom-reset" bindtap="resetZoom">{{zoomPercent}}%</button>
+        <button class="zoom-button" bindtap="zoomIn">+</button>
+      </view>
+      <view wx:if="{{!imageLoaded && !imageError}}" class="image-placeholder">
+        <text>图片加载中</text>
+      </view>
+      <view wx:if="{{imageError}}" class="image-error">
+        <text>{{imageError}}</text>
+      </view>
+      <scroll-view class="image-scroll" scroll-x scroll-y enhanced show-scrollbar="{{true}}">
+        <image
+          class="invoice-image {{imageLoaded ? 'loaded' : ''}}"
+          style="{{zoomStyle}}"
+          src="{{sourcePath}}"
+          mode="widthFix"
+          bindload="handleImageLoad"
+          binderror="handleImageError"
+          bindtap="openSystemPreview"
+        />
+      </scroll-view>
+    </view>
+
+    <view wx:else class="surface pdf-card">
+      <text class="pdf-title">PDF 原件已准备好</text>
+      <text class="pdf-copy muted">点击下方按钮使用微信文档查看器打开。</text>
+      <button class="primary-button" loading="{{openingPdf}}" disabled="{{openingPdf}}" bindtap="openPdf">{{openingPdf ? '正在打开' : '打开 PDF'}}</button>
+    </view>
+
+    <view class="action-row">
+      <button wx:if="{{isImage}}" class="ghost-button" bindtap="openSystemPreview">系统预览</button>
+      <button class="ghost-button" bindtap="goBack">返回详情</button>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,143 @@
+<view class="safe-page detail-page">
+  <view wx:if="{{missing}}" class="surface empty">
+    <text class="empty-title">未找到这张发票</text>
+    <button class="primary-button" bindtap="goBack">返回</button>
+  </view>
+
+  <view wx:else>
+    <view class="surface header-card">
+      <view class="category-icon" style="background: {{form.categoryColor}};">{{form.categoryIcon}}</view>
+      <view class="header-copy">
+        <text class="merchant">{{form.merchant}}</text>
+        <text class="file-name muted">{{form.fileName}}</text>
+      </view>
+      <view class="header-right">
+        <text class="confidence">{{form.confidence}}%</text>
+        <button class="re-recognize-btn" loading="{{recognizing}}" disabled="{{recognizing}}" bindtap="reRecognize">
+          {{recognizing ? '识别中' : '重新识别'}}
+        </button>
+      </view>
+    </view>
+
+    <view class="surface form-card">
+      <view class="field">
+        <text class="field-label">商家/平台</text>
+        <input class="field-input" value="{{form.merchant}}" data-key="merchant" bindinput="updateField" />
+      </view>
+
+      <view class="field">
+        <text class="field-label">购买方/人员</text>
+        <input class="field-input" value="{{form.buyerName}}" data-key="buyerName" bindinput="updateField" placeholder="用于区分同商品开给不同人" placeholder-class="field-placeholder" />
+      </view>
+
+      <view class="field">
+        <text class="field-label">购买方税号</text>
+        <input class="field-input mono" value="{{form.buyerTaxNo}}" data-key="buyerTaxNo" bindinput="updateField" placeholder="可选" placeholder-class="field-placeholder" />
+      </view>
+
+      <view class="field">
+        <text class="field-label">报销金额</text>
+        <input class="field-input" type="digit" value="{{form.amount}}" data-key="amount" bindinput="updateField" />
+      </view>
+
+      <view class="field">
+        <text class="field-label">日期</text>
+        <input class="field-input" value="{{form.date}}" data-key="date" bindinput="updateField" />
+      </view>
+
+      <view class="field">
+        <text class="field-label">收支项目</text>
+        <picker mode="selector" range="{{categories}}" range-key="name" value="{{categoryIndex}}" bindchange="changeCategory">
+          <view class="picker-value">{{form.categoryIcon}} {{form.categoryName}}</view>
+        </picker>
+      </view>
+
+      <view class="field">
+        <text class="field-label">收支项目明细</text>
+        <input class="field-input" value="{{form.expenseItem}}" data-key="expenseItem" bindinput="updateField" placeholder="如：长途交通费10201" placeholder-class="field-placeholder" />
+      </view>
+
+      <view class="field">
+        <text class="field-label">发票类型</text>
+        <picker mode="selector" range="{{invoiceTypes}}" value="{{invoiceTypeIndex}}" bindchange="changeInvoiceType">
+          <view class="picker-value">{{form.invoiceType || '请选择发票类型'}}</view>
+        </picker>
+      </view>
+
+      <view class="field">
+        <text class="field-label">发票号</text>
+        <input class="field-input mono" value="{{form.invoiceNo}}" data-key="invoiceNo" bindinput="updateField" />
+      </view>
+
+      <view class="field">
+        <text class="field-label">税号</text>
+        <input class="field-input mono" value="{{form.taxNo}}" data-key="taxNo" bindinput="updateField" />
+      </view>
+
+      <view class="field">
+        <text class="field-label">税额</text>
+        <input class="field-input" type="digit" value="{{form.taxAmount}}" data-key="taxAmount" bindinput="updateField" placeholder="可选" placeholder-class="field-placeholder" />
+      </view>
+
+      <view class="field">
+        <text class="field-label">不含税金额</text>
+        <input class="field-input" type="digit" value="{{form.pretaxAmount}}" data-key="pretaxAmount" bindinput="updateField" placeholder="可选" placeholder-class="field-placeholder" />
+      </view>
+
+      <view class="field">
+        <text class="field-label">承担部门</text>
+        <input class="field-input" value="{{form.department}}" data-key="department" bindinput="updateField" placeholder="请输入承担部门" placeholder-class="field-placeholder" />
+      </view>
+
+      <view class="field">
+        <text class="field-label">承担部门负责人</text>
+        <input class="field-input" value="{{form.departmentOwner}}" data-key="departmentOwner" bindinput="updateField" placeholder="请输入负责人" placeholder-class="field-placeholder" />
+      </view>
+
+      <view class="field">
+        <text class="field-label">承担金额</text>
+        <input class="field-input" type="digit" value="{{form.allocatedAmount}}" data-key="allocatedAmount" bindinput="updateField" placeholder="可选" placeholder-class="field-placeholder" />
+      </view>
+
+      <view class="field">
+        <text class="field-label">备注</text>
+        <textarea class="field-input field-textarea" value="{{form.remark}}" data-key="remark" bindinput="updateField" placeholder="如：深圳--昆明机票" placeholder-class="field-placeholder" auto-height="{{true}}" />
+      </view>
+
+      <view class="field">
+        <text class="field-label">文件名</text>
+        <input class="field-input" value="{{form.fileName}}" data-key="fileName" bindinput="updateField" />
+      </view>
+
+      <view class="field">
+        <text class="field-label">原件类型</text>
+        <picker mode="selector" range="{{sourceTypes}}" value="{{sourceTypeIndex}}" bindchange="changeSourceType">
+          <view class="picker-value">{{form.sourceType}}</view>
+        </picker>
+      </view>
+
+      <view class="field">
+        <text class="field-label">凭证类型</text>
+        <picker mode="selector" range="{{evidenceTypes}}" value="{{evidenceTypeIndex}}" bindchange="changeEvidenceType">
+          <view class="picker-value">{{form.evidenceType}}</view>
+        </picker>
+      </view>
+    </view>
+
+    <view wx:if="{{form.folderName}}" class="surface pair-card">
+      <text class="pair-title">智能配对文件夹</text>
+      <text class="pair-name">{{form.folderName}}</text>
+    </view>
+
+    <view wx:if="{{form.archiveFolder}}" class="surface archive-card">
+      <text class="archive-title">原件归档</text>
+      <text class="archive-line">{{form.archiveFolder}}</text>
+      <text wx:if="{{form.archivePath}}" class="archive-line">{{form.archivePath}}</text>
+    </view>
+
+    <view class="action-bar">
+      <button class="ghost-button" bindtap="previewOriginal">预览原件</button>
+      <button class="primary-button" bindtap="saveInvoice">保存修正</button>
+    </view>
+  </view>
+</view>

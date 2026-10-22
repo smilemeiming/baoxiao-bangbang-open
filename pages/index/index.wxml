@@ -1,0 +1,104 @@
+<view class="safe-page dashboard">
+  <view class="entry-head">
+    <text class="entry-title">开始报销</text>
+    <text class="entry-copy muted">{{desktopMode ? '选择电脑本地的图片或 PDF 进行识别' : '拍照扫描纸质票据，或上传微信中的图片和 PDF'}}</text>
+  </view>
+
+  <view class="entry-stack">
+    <view
+      class="entry-button scan-entry {{importBusy ? 'disabled' : ''}}"
+      aria-role="button"
+      aria-label="{{desktopMode ? '本地文件识别' : '拍照识别'}}"
+      hover-class="entry-button-active"
+      bindtap="startScan"
+    >
+      <image class="entry-icon-image" src="/assets/actions/camera-blue.png" mode="aspectFit"></image>
+      <view class="entry-button-copy">
+        <text class="entry-button-title">{{desktopMode ? '本地文件识别' : '拍照识别'}}</text>
+        <text class="entry-button-note">{{importBusy ? '正在识别，请稍候' : desktopMode ? '选择电脑中的图片或 PDF 文档' : '拍摄票据或从相册选择'}}</text>
+      </view>
+    </view>
+
+    <view
+      class="entry-button file-entry {{importBusy ? 'disabled' : ''}}"
+      aria-role="button"
+      aria-label="上传识别"
+      hover-class="entry-button-active"
+      bindtap="startUpload"
+    >
+      <image class="entry-icon-image" src="/assets/actions/file-upload-green.png" mode="aspectFit"></image>
+      <view class="entry-button-copy">
+        <text class="entry-button-title">上传识别</text>
+        <text class="entry-button-note">{{importBusy ? '正在识别，请稍候' : '选择微信中的图片或 PDF'}}</text>
+      </view>
+    </view>
+
+    <view
+      class="entry-button rename-entry {{importBusy ? 'disabled' : ''}}"
+      aria-role="button"
+      aria-label="一键命名已识别文件"
+      hover-class="entry-button-active"
+      bindtap="goRename"
+    >
+      <text class="entry-symbol">名</text>
+      <view class="entry-button-copy">
+        <text class="entry-button-title">一键命名已识别文件</text>
+        <text class="entry-button-note">{{importBusy ? '正在识别，请稍候' : '批量生成规范文件名'}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="summary surface">
+    <view class="summary-head">
+      <text class="summary-title">报销概览</text>
+      <text class="summary-link" bindtap="goReport">生成报表</text>
+    </view>
+    <view class="summary-row">
+      <view class="amount-stat">
+        <text class="summary-label">累计金额</text>
+        <text class="summary-amount amount">¥{{totalAmountText}}</text>
+      </view>
+      <view class="count-stat">
+        <text class="summary-number success-number">{{successCount}}</text>
+        <text class="summary-label">识别成功</text>
+      </view>
+      <view class="count-stat">
+        <text class="summary-number {{failedCount ? 'failed-number' : ''}}">{{failedCount}}</text>
+        <text class="summary-label">识别失败</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section-head">
+    <text class="section-title inline">最近发票</text>
+    <text class="section-link" bindtap="goInvoices">查看全部</text>
+  </view>
+
+  <view wx:if="{{empty}}" class="empty surface">
+    <text class="empty-title">暂无发票记录</text>
+    <text class="empty-copy muted">使用上方任一方式录入后，识别结果会显示在这里。</text>
+  </view>
+
+  <view wx:else class="recent-list">
+    <view
+      class="invoice-row surface {{item.recognitionFailed ? 'invoice-row-failed' : ''}}"
+      wx:for="{{recentInvoices}}"
+      wx:key="id"
+      data-id="{{item.id}}"
+      hover-class="invoice-row-active"
+      bindtap="openInvoiceDetail"
+    >
+      <view class="invoice-icon" style="background: {{item.categoryColor}};">{{item.categoryIcon}}</view>
+      <view class="invoice-copy">
+        <text class="invoice-title">{{item.merchant}}</text>
+        <text class="invoice-meta muted">{{item.date}} · {{item.categoryName}} · {{item.evidenceType}}</text>
+        <text wx:if="{{item.buyerDisplayName}}" class="invoice-buyer">开给：{{item.buyerDisplayName}}</text>
+        <text wx:if="{{item.recognitionFailed}}" class="failure-hint">识别失败，点击进入并手动补全</text>
+      </view>
+      <view class="invoice-right">
+        <text class="invoice-amount amount">¥{{item.amountText}}</text>
+        <text wx:if="{{item.recognitionFailed}}" class="failure-badge">识别失败</text>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,68 @@
+<view class="safe-page invoices-page">
+  <scroll-view class="filter-scroll" scroll-x enable-flex>
+    <view class="filter-row">
+      <view
+        class="filter-chip {{activeCategory === item.id ? 'active' : ''}}"
+        wx:for="{{filters}}"
+        wx:key="id"
+        data-id="{{item.id}}"
+        bindtap="setFilter"
+      >
+        <text class="filter-icon">{{item.icon}}</text>
+        <text>{{item.name}}</text>
+      </view>
+    </view>
+  </scroll-view>
+
+  <view wx:if="{{showUndo}}" class="undo-bar">
+    <text class="undo-copy">已删除 {{lastDeletedCount}} 张发票</text>
+    <button class="undo-button" bindtap="restoreDeleted">恢复</button>
+  </view>
+
+  <view wx:if="{{!empty}}" class="library-toolbar surface {{selectionMode ? 'selection-toolbar' : ''}}">
+    <text class="toolbar-title">{{toolbarTitle}}</text>
+    <view class="toolbar-actions">
+      <button wx:if="{{!selectionMode}}" class="toolbar-button selection-entry-button" bindtap="enterSelectionMode">✓ 批量选择</button>
+      <block wx:else>
+        <button class="toolbar-button select-all-button" bindtap="toggleSelectAll">{{selectAllText}}</button>
+        <button class="danger-toolbar-button" disabled="{{deleteDisabled}}" bindtap="removeSelected">删除所选</button>
+        <button class="toolbar-button ghost cancel-selection-button" bindtap="exitSelectionMode">取消</button>
+      </block>
+    </view>
+  </view>
+
+  <view wx:if="{{empty}}" class="empty surface">
+    <text class="empty-title">当前收支项目为空</text>
+    <text class="empty-copy muted">导入后会自动按照长途交通费、市内交通费、差旅住宿费、餐补、招待费和其他归档。</text>
+    <button class="primary-button" bindtap="goUpload">去导入</button>
+  </view>
+
+  <view wx:else class="invoice-list">
+    <view
+      class="invoice-card surface {{selectionMode ? 'selecting' : ''}} {{item.selected ? 'selected' : ''}}"
+      wx:for="{{filteredInvoices}}"
+      wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="handleCardTap"
+    >
+      <view wx:if="{{selectionMode}}" class="selection-dot {{item.selected ? 'checked' : ''}}" data-id="{{item.id}}" catchtap="toggleSelect">
+        <text wx:if="{{item.selected}}">✓</text>
+      </view>
+      <view class="category-icon" style="background: {{item.categoryColor}};">{{item.categoryIcon}}</view>
+      <view class="main-copy">
+        <text class="merchant">{{item.merchant}}</text>
+        <view class="compact-meta muted">
+          <text>{{item.date || '日期待补充'}}</text>
+          <text class="meta-separator">·</text>
+          <text>{{item.categoryName || '其他'}}</text>
+          <text class="meta-separator">·</text>
+          <text>{{item.evidenceType || '发票'}}</text>
+        </view>
+        <text wx:if="{{item.buyerDisplayName}}" class="compact-buyer">开给：{{item.buyerDisplayName}}</text>
+      </view>
+      <view class="amount-box">
+        <text class="amount-text amount">¥{{item.amountText}}</text>
+      </view>
+    </view>
+  </view>
+</view>

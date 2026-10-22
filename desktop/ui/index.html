@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self' blob:; style-src 'self'; img-src 'self' blob: data:; connect-src 'self' file: blob:; font-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>报销帮帮 · 本地版</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-symbol">报</span><div><strong>报销帮帮</strong><small>把票据，整理清楚。</small></div></div>
+    <div class="workspace-label">个人工作台 <span>本地版</span></div>
+    <nav class="nav-main" aria-label="发票状态">
+      <button class="nav-item active" data-view="all"><span>▤</span>全部发票 <b id="all-count">0</b></button>
+      <button class="nav-item" data-view="pending"><span>◷</span>待核对 <b id="pending-count">0</b></button>
+      <button class="nav-item" data-view="confirmed"><span>✓</span>已核对 <b id="confirmed-count">0</b></button>
+    </nav>
+    <div class="nav-section-label">费用分类</div><nav id="categories" class="category-nav" aria-label="费用分类"></nav>
+    <div class="sidebar-bottom"><span class="offline-dot"></span><strong>文件只在本机处理</strong><p>无需账号，也无需配置密钥</p><button id="open-data" class="text-button">打开数据文件夹 ↗</button><br><button id="restore" class="text-button">从备份合并恢复…</button><span class="version">Windows · 0.1.1 预览版</span></div>
+  </aside>
+
+  <main>
+    <header class="topbar"><div class="breadcrumb">个人工作台 <span>/</span> 发票管理</div><div class="offline-badge"><span class="offline-dot"></span>本地识别已就绪</div></header>
+    <section class="workspace">
+      <div class="page-heading"><div><div class="eyebrow">INVOICE WORKSPACE</div><h1 id="page-title">全部发票</h1><p>从一张发票，到一份清晰的报销报表。</p></div><div class="heading-actions"><button id="backup" class="button secondary">备份数据</button><button id="import" class="button primary">＋ 导入发票</button></div></div>
+
+      <section class="stats" aria-label="发票统计">
+        <article class="stat-card"><div><span class="stat-label">已核对金额</span><span class="stat-icon">¥</span></div><strong id="confirmed-total"><small>¥</small>0.00</strong><p>默认仅将已核对记录计入导出</p></article>
+        <article class="stat-card"><div><span class="stat-label">发票总数</span><span class="stat-icon">▤</span></div><strong id="total-count">0 <small>张</small></strong><p>支持 JPG、PNG 和多页 PDF</p></article>
+        <article class="stat-card review-card"><div><span class="stat-label">待核对</span><span class="stat-icon">◷</span></div><strong id="review-count">0 <small>张</small></strong><p>打开记录，确认识别字段</p></article>
+      </section>
+
+      <section id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="选择或拖入发票">
+        <div class="upload-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 16V4m-4 4 4-4 4 4M4 15v5h16v-5"/></svg></div>
+        <div><strong>拖入发票，剩下的交给本机处理</strong><p>或点击选择文件 · 图片与 PDF · 单文件不超过 80 MB</p></div><span class="dropzone-tag">无需联网</span>
+      </section>
+      <section id="progress" class="progress-card" hidden><div><strong id="progress-title">正在准备识别…</strong><span id="progress-detail"></span></div><progress id="progress-bar" max="100" value="0"></progress><p>首次识别需加载本地模型，请稍候。扫描件的处理时间取决于页数和电脑性能。</p></section>
+
+      <section class="library-panel">
+        <div class="panel-toolbar"><div class="panel-title">发票记录 <span id="visible-count">0 张</span></div><div class="toolbar-right"><label class="search"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8.5" cy="8.5" r="5.5"/><path d="m13 13 4 4"/></svg><input id="search" placeholder="搜索商家、票号或文件名" aria-label="搜索发票"></label><button id="manual" class="button small secondary">手动新增</button></div></div>
+        <div class="bulk-toolbar"><span id="selected-count">未选择记录</span><button id="batch-create" class="text-button" disabled>新建报销批次</button><button id="originals" class="text-button" disabled>导出规范命名原件</button><button id="delete" class="text-button danger" disabled>删除所选</button><button id="undo" class="text-button" disabled>撤销上次删除</button></div>
+        <div class="table-wrap"><table><thead><tr><th class="checkbox-col"><input type="checkbox" id="select-all" aria-label="全选当前列表"></th><th>商家 / 文件</th><th>费用类别</th><th>开票日期</th><th class="amount-col">含税金额</th><th>状态</th><th class="last-col"></th></tr></thead><tbody id="invoice-rows"></tbody></table></div>
+        <div id="empty" class="empty-state"><div class="empty-illustration"><svg viewBox="0 0 64 72" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 6h25l12 12v47l-6-4-6 4-7-4-7 4-6-4-5 4V6Z"/><path d="M39 6v14h12M23 31h20M23 40h20M23 49h12"/></svg></div><h2>你的第一张发票，从这里开始</h2><p>导入后自动读取内容，核对完成即可导出报表。</p><button id="empty-import" class="button primary">选择发票文件</button></div>
+        <footer class="panel-footer"><span>原件会复制到数据目录，源文件保持原样。</span><span>点击记录查看详情 →</span></footer>
+      </section>
+
+      <section class="batch-panel" aria-label="报销批次">
+        <div><strong>报销批次</strong><p>把一次报销所需的记录整理在一起，导出 Excel 和原件。</p></div>
+        <div class="batch-controls"><select id="batch-select" aria-label="选择报销批次"><option value="">选择批次</option></select><span id="batch-summary" class="batch-summary">尚未创建批次</span><button id="batch-export" class="button secondary" disabled>导出批次资料包</button><button id="batch-delete" class="text-button danger" disabled>删除批次</button></div>
+      </section>
+
+      <section class="export-panel"><div class="export-label"><span class="export-symbol">↗</span><div><strong>报销报表，随时就绪</strong><p>导出 Excel 文件，继续交给你的财务流程。</p></div></div><div class="export-actions"><select id="report-scope" aria-label="导出范围"><option value="all">全部记录</option><option value="filtered">当前筛选</option><option value="selected">所选记录</option></select><label class="confirmed-checkbox"><input id="only-confirmed" type="checkbox" checked>仅导出已核对</label><select id="report-mode" aria-label="报表类型"><option value="summary">汇总表</option><option value="detail">明细表</option><option value="category">按费用分类</option><option value="lodgingMeal">住宿与餐补</option></select><span id="export-preview" class="export-preview" aria-live="polite"></span><button id="export" class="button primary">导出 Excel</button></div></section>
+      <div class="footnote">本地识别可能有遗漏，尤其是模糊图片与复杂表格。报销前请核对金额、日期和票号。</div>
+    </section>
+  </main>
+
+  <dialog id="editor"><div class="editor-header"><div><span class="eyebrow">INVOICE DETAIL</span><h2>核对发票</h2></div><button id="close-editor" class="icon-button" aria-label="关闭详情">×</button></div><div class="editor-body"><section class="preview-panel"><div class="preview-heading"><strong>原件预览</strong><span id="preview-page"></span></div><div id="preview" class="preview-stage"></div><div id="source-name" class="source-name"></div></section><form id="edit-form"><div id="source-status" class="source-status"></div><div class="form-grid"><label class="span-two">商家 / 销售方<input name="merchant" maxlength="2000" required></label><label>含税金额<input name="amount" type="number" min="0" step="0.01" required></label><label>开票日期<input name="date" type="date" required></label><label class="span-two">发票号码<input name="invoiceNo" maxlength="2000"></label><label>费用类别<select name="categoryId"></select></label><label>购买方 / 人员<input name="buyerName" maxlength="2000"></label><label>购买方税号<input name="buyerTaxNo" maxlength="2000"></label><label>销售方税号<input name="sellerTaxNo" maxlength="2000"></label><label>税额<input name="taxAmount" type="number" min="0" step="0.01"></label><label>不含税金额<input name="pretaxAmount" type="number" min="0" step="0.01"></label><label>承担部门<input name="department" maxlength="2000"></label><label>部门负责人<input name="departmentOwner" maxlength="2000"></label><label class="span-two">备注<textarea name="remark" rows="2" maxlength="2000"></textarea></label></div><details class="ocr-details"><summary>查看本机读取的原始文字</summary><textarea id="ocr-text" rows="6" readonly></textarea></details><div class="editor-save"><label><input name="confirmed" type="checkbox">字段已核对，允许计入报表</label><button type="submit" class="button primary">保存记录</button></div><p id="form-error" class="form-error" role="alert"></p></form></div></dialog>
+  <dialog id="delete-dialog" class="confirm-dialog"><h2>删除所选记录？</h2><p>归档原件会保留。可使用“撤销上次删除”恢复最近一次删除的记录。</p><div><button id="cancel-delete" class="button secondary">取消</button><button id="confirm-delete" class="button danger-button">删除记录</button></div></dialog>
+  <dialog id="batch-dialog" class="confirm-dialog"><form id="batch-form"><h2>新建报销批次</h2><p id="batch-create-detail">将所选记录加入新批次。批次只做归集，不会移动或删除原件。</p><label class="batch-name-field">批次名称<input id="batch-name" maxlength="100" required></label><div><button id="cancel-batch" type="button" class="button secondary">取消</button><button type="submit" class="button primary">创建批次</button></div></form></dialog>
+  <dialog id="batch-delete-dialog" class="confirm-dialog"><h2>删除这个批次？</h2><p><strong id="batch-delete-name"></strong>将从批次列表移除。发票记录和已归档原件不会删除。</p><div><button id="cancel-batch-delete" class="button secondary">取消</button><button id="confirm-batch-delete" class="button danger-button">删除批次</button></div></dialog>
+  <div id="toast" role="status" hidden></div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

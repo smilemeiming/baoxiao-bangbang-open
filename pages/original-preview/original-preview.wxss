@@ -1,0 +1,157 @@
+.original-page {
+  padding-bottom: 48rpx;
+}
+
+.state-card,
+.info-card,
+.pdf-card {
+  padding: 22rpx;
+}
+
+.state-title,
+.state-copy,
+.file-name,
+.pdf-title,
+.pdf-copy {
+  display: block;
+}
+
+.state-title,
+.pdf-title {
+  color: #1b2430;
+  font-size: 34rpx;
+  font-weight: 800;
+}
+
+.state-copy,
+.pdf-copy {
+  margin-top: 10rpx;
+  font-size: 27rpx;
+  line-height: 1.6;
+}
+
+.file-name {
+  overflow: hidden;
+  color: #1b2430;
+  font-size: 28rpx;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.image-wrap {
+  margin-top: 16rpx;
+  overflow: hidden;
+  min-height: 360rpx;
+  border: 1rpx solid #e1e7ef;
+  border-radius: 8rpx;
+  background: #ffffff;
+}
+
+.zoom-toolbar {
+  display: flex;
+  gap: 8rpx;
+  padding: 10rpx;
+  border-bottom: 1rpx solid #e1e7ef;
+  background: #f8fafc;
+}
+
+.zoom-button {
+  display: flex;
+  height: 48rpx;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  border-radius: 8rpx;
+  background: #eef8f3;
+  color: #176b5b;
+  font-size: 28rpx;
+  font-weight: 800;
+  line-height: normal;
+}
+
+.zoom-reset {
+  flex: 1.6;
+  background: #ffffff;
+}
+
+.zoom-button::after {
+  border: 0;
+}
+
+.image-placeholder,
+.image-error {
+  display: flex;
+  min-height: 320rpx;
+  align-items: center;
+  justify-content: center;
+  padding: 24rpx;
+  color: #64748b;
+  font-size: 27rpx;
+  text-align: center;
+}
+
+.image-error {
+  color: #b91c1c;
+  line-height: 1.5;
+}
+
+.image-scroll {
+  width: 100%;
+  height: 760rpx;
+  background: #ffffff;
+}
+
+.invoice-image {
+  display: block;
+  min-width: 100%;
+  opacity: 0;
+  transition: width 160ms ease;
+}
+
+.invoice-image.loaded {
+  opacity: 1;
+}
+
+.pdf-card {
+  margin-top: 22rpx;
+}
+
+.action-row {
+  display: flex;
+  gap: 12rpx;
+  margin-top: 18rpx;
+}
+
+.primary-button,
+.ghost-button {
+  display: flex;
+  height: 70rpx;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  font-weight: 700;
+  line-height: normal;
+  text-align: center;
+}
+
+.primary-button {
+  margin-top: 24rpx;
+  background: #176b5b;
+  color: #ffffff;
+}
+
+.ghost-button {
+  border: 1rpx solid #b8d8cd;
+  background: #ffffff;
+  color: #176b5b;
+}
+
+.primary-button::after,
+.ghost-button::after {
+  border: 0;
+}

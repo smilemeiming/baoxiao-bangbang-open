@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+miniprogram_npm/
+
+# Build outputs
+dist/
+build/
+
+# Local WeChat DevTools files
+project.private.config.json
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Personal configuration and unpublished material
+config.local.js
+.local/
+.env
+.env.*
+!.env.example
+rea/
+.agents/
+.claude/
+release/
+sample-invoices/
+desktop/resources/tessdata/
+desktop/ui/vendor/
+desktop/THIRD_PARTY_NOTICES.txt

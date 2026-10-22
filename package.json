@@ -1,0 +1,13 @@
+{
+  "name": "invoice-reimbursement-manager",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "description": "发票识别与报销管理工具：Windows 本地 OCR、发票归档和 Excel 报表；另含微信小程序源码",
+  "scripts": {
+    "setup": "node scripts/setup.js",
+    "prepare:release": "npm run verify && node scripts/prepare-release.js",
+    "verify": "node scripts/verify.js && node scripts/verify-flow.js && node scripts/verify-release.js",
+    "test": "npm run verify"
+  }
+}

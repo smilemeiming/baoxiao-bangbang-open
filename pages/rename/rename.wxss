@@ -1,0 +1,293 @@
+.rename-page {
+  padding-top: 28rpx;
+  padding-bottom: 48rpx;
+}
+
+.rename-page .surface {
+  border-color: #e6edf0;
+  border-radius: 12rpx;
+  box-shadow: 0 8rpx 22rpx rgba(15, 36, 47, 0.04);
+}
+
+.rename-headline {
+  padding: 8rpx 4rpx 4rpx;
+}
+
+.eyebrow,
+.title,
+.head-copy,
+.label,
+.rename-title,
+.rename-copy,
+.rename-count,
+.preview-name,
+.preview-source,
+.rename-empty,
+.rename-result,
+.empty-title,
+.empty-copy,
+.empty-mark {
+  display: block;
+}
+
+.eyebrow {
+  color: #176b5b;
+  font-size: 24rpx;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.title {
+  margin-top: 8rpx;
+  color: #1b2430;
+  font-size: 38rpx;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.head-copy {
+  margin-top: 10rpx;
+  font-size: 26rpx;
+  line-height: 1.5;
+}
+
+.rename-card {
+  margin-top: 24rpx;
+  padding: 28rpx;
+}
+
+.rename-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20rpx;
+}
+
+.rename-title-wrap {
+  min-width: 0;
+  flex: 1;
+}
+
+.rename-title {
+  color: #1b2430;
+  font-size: 30rpx;
+  font-weight: 800;
+}
+
+.rename-copy {
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  line-height: 1.5;
+}
+
+.rename-count {
+  flex-shrink: 0;
+  padding: 10rpx 16rpx;
+  border-radius: 999rpx;
+  background: #eef7f3;
+  color: #176b5b;
+  font-size: 24rpx;
+  font-weight: 750;
+}
+
+.rename-field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14rpx;
+  margin-top: 24rpx;
+}
+
+.rename-field {
+  display: flex;
+  min-height: 66rpx;
+  align-items: center;
+  gap: 10rpx;
+  padding: 0 14rpx;
+  border: 1rpx solid #dce5ea;
+  border-radius: 10rpx;
+  background: #fbfcfd;
+  color: #26323f;
+  font-size: 24rpx;
+  line-height: 1.25;
+}
+
+.rename-field.checked {
+  border-color: #9bcbbb;
+  background: #f1faf6;
+  color: #176b5b;
+  font-weight: 700;
+}
+
+.rename-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14rpx;
+  margin-top: 24rpx;
+  padding-top: 22rpx;
+  border-top: 1rpx solid #edf0f3;
+}
+
+.rename-switch {
+  display: flex;
+  min-height: 68rpx;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14rpx;
+  border: 1rpx solid #dce5ea;
+  border-radius: 10rpx;
+  background: #fbfcfd;
+  color: #1b2430;
+  font-size: 25rpx;
+}
+
+.rename-picker,
+.rename-input {
+  display: flex;
+  min-height: 68rpx;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16rpx;
+  border: 1rpx solid #d7e0e7;
+  border-radius: 10rpx;
+  background: #ffffff;
+  color: #1b2430;
+  font-size: 25rpx;
+}
+
+.rename-input {
+  width: 100%;
+  grid-column: span 2;
+}
+
+.rename-placeholder {
+  color: #9aa5af;
+}
+
+.mode-arrow {
+  color: #176b5b;
+  font-size: 30rpx;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.rename-preview {
+  margin-top: 22rpx;
+  padding: 20rpx;
+  border-top: 1rpx solid #edf0f3;
+  border-radius: 10rpx;
+  background: #f8fbfa;
+}
+
+.preview-list {
+  margin-top: 12rpx;
+}
+
+.preview-row {
+  padding: 14rpx 0 12rpx;
+  border-bottom: 1rpx solid #eef2f7;
+}
+
+.preview-row:last-child {
+  border-bottom: 0;
+}
+
+.preview-name {
+  overflow: hidden;
+  color: #176b5b;
+  font-size: 26rpx;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.preview-source {
+  overflow: hidden;
+  margin-top: 6rpx;
+  font-size: 23rpx;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rename-empty {
+  margin-top: 12rpx;
+  font-size: 25rpx;
+}
+
+.label {
+  font-size: 25rpx;
+}
+
+.rename-button,
+.primary-button {
+  display: flex;
+  width: 100%;
+  min-height: 76rpx;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10rpx;
+  font-size: 28rpx;
+  font-weight: 700;
+  line-height: normal;
+  text-align: center;
+}
+
+.rename-button {
+  margin-top: 20rpx;
+  background: #176b5b;
+  color: #ffffff;
+}
+
+.rename-button[disabled] {
+  background: #c8d3d0;
+  color: #ffffff;
+}
+
+.rename-result {
+  margin-top: 12rpx;
+  font-size: 24rpx;
+  line-height: 1.45;
+}
+
+.primary-button {
+  width: 320rpx;
+  max-width: 100%;
+  margin: 28rpx auto 0;
+  background: #176b5b;
+  color: #ffffff;
+}
+
+.rename-button::after,
+.primary-button::after {
+  border: 0;
+}
+
+.empty {
+  margin-top: 24rpx;
+  padding: 42rpx 30rpx;
+  text-align: center;
+}
+
+.empty-mark {
+  width: 88rpx;
+  height: 88rpx;
+  margin: 0 auto 22rpx;
+  border-radius: 999rpx;
+  background: #eef7f3;
+  color: #176b5b;
+  font-size: 34rpx;
+  font-weight: 800;
+  line-height: 88rpx;
+}
+
+.empty-title {
+  color: #1b2430;
+  font-size: 33rpx;
+  font-weight: 800;
+}
+
+.empty-copy {
+  max-width: 560rpx;
+  margin: 12rpx auto 0;
+  font-size: 26rpx;
+  line-height: 1.6;
+}

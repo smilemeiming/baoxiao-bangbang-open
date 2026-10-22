@@ -1,0 +1,66 @@
+<view class="safe-page report-page">
+  <view class="report-head">
+    <text class="eyebrow">报表中心</text>
+    <text class="title">导出报销数据</text>
+    <text class="head-copy muted">选择报表类型后生成，可直接打开或分享给财务</text>
+  </view>
+
+  <view class="report-control surface">
+    <view class="mode-row">
+      <view class="mode-copy-wrap">
+        <text class="mode-label">导出类型</text>
+        <text class="mode-copy muted">{{selectedReportMode.description}}</text>
+      </view>
+      <picker mode="selector" range="{{reportModes}}" range-key="name" value="{{reportModeIndex}}" bindchange="changeReportMode">
+        <view class="mode-picker">
+          <text class="mode-name">{{selectedReportMode.name}}</text>
+          <text class="mode-arrow">⌄</text>
+        </view>
+      </picker>
+    </view>
+
+    <view class="total-row">
+      <view class="total-item">
+        <text class="label muted">票据数量</text>
+        <text class="metric">{{totalCount}}</text>
+      </view>
+      <view class="total-item">
+        <text class="label muted">报销金额</text>
+        <text class="metric amount">¥{{totalAmountText}}</text>
+      </view>
+    </view>
+
+    <button class="export-button" loading="{{exporting}}" bindtap="exportExcel">生成并打开 Excel</button>
+    <view wx:if="{{lastReportPath}}" class="report-actions">
+      <button class="open-button" bindtap="openLastReport">打开报表</button>
+      <button class="share-button" bindtap="shareReport">分享给财务</button>
+    </view>
+    <button wx:else class="share-button single" loading="{{exporting}}" bindtap="shareReport">生成并分享</button>
+    <text wx:if="{{lastReportName}}" class="last-report muted">{{lastReportModeName}} · {{lastReportName}}</text>
+  </view>
+
+  <view wx:if="{{empty}}" class="empty surface">
+    <view class="empty-mark">
+      <text>票</text>
+    </view>
+    <text class="empty-title">暂无可导出的发票</text>
+    <text class="empty-copy muted">导入发票后会在这里显示汇总表。</text>
+    <button class="primary-button" bindtap="goUpload">去导入</button>
+  </view>
+
+  <view wx:else>
+    <view class="section-title">汇总表</view>
+    <view class="summary-table surface">
+      <view class="table-row header">
+        <text>收支项目</text>
+        <text>数量</text>
+        <text>金额</text>
+      </view>
+      <view class="table-row" wx:for="{{categoryRows}}" wx:key="id">
+        <text>{{item.icon}} {{item.name}}</text>
+        <text>{{item.count}}</text>
+        <text class="amount">¥{{item.amountText}}</text>
+      </view>
+    </view>
+  </view>
+</view>

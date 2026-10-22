@@ -1,0 +1,63 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/rename/rename",
+    "pages/upload/upload",
+    "pages/invoices/invoices",
+    "pages/report/report",
+    "pages/invoice-detail/invoice-detail",
+    "pages/original-preview/original-preview"
+  ],
+  "window": {
+    "navigationBarTitleText": "报销帮帮",
+    "navigationBarBackgroundColor": "#176b5b",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f5f7fb",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "color": "#68727d",
+    "selectedColor": "#176b5b",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "识别",
+        "iconPath": "assets/tabbar/overview-normal.png",
+        "selectedIconPath": "assets/tabbar/overview-active.png"
+      },
+      {
+        "pagePath": "pages/upload/upload",
+        "text": "总览",
+        "iconPath": "assets/tabbar/upload-normal.png",
+        "selectedIconPath": "assets/tabbar/upload-active.png"
+      },
+      {
+        "pagePath": "pages/invoices/invoices",
+        "text": "发票库",
+        "iconPath": "assets/tabbar/invoices-normal.png",
+        "selectedIconPath": "assets/tabbar/invoices-active.png"
+      },
+      {
+        "pagePath": "pages/report/report",
+        "text": "报表",
+        "iconPath": "assets/tabbar/report-normal.png",
+        "selectedIconPath": "assets/tabbar/report-active.png"
+      }
+    ]
+  },
+  "permission": {
+    "scope.camera": {
+      "desc": "用于拍摄发票、行程单等报销凭证并进行识别归档"
+    }
+  },
+  "networkTimeout": {
+    "request": 60000,
+    "connectSocket": 60000,
+    "uploadFile": 60000,
+    "downloadFile": 60000
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

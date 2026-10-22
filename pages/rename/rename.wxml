@@ -1,0 +1,77 @@
+<view class="safe-page rename-page">
+  <view class="rename-headline">
+    <text class="eyebrow">文件命名</text>
+    <text class="title">一键命名已识别文件</text>
+    <text class="head-copy muted">按发票字段生成文件名，完成后会更新原件路径</text>
+  </view>
+
+  <view wx:if="{{!empty}}" class="rename-card surface">
+    <view class="rename-head">
+      <view class="rename-title-wrap">
+        <text class="rename-title">命名规则</text>
+        <text class="rename-copy muted">选择需要拼入文件名的字段</text>
+      </view>
+      <text class="rename-count">{{renameInvoiceCount}} 张</text>
+    </view>
+
+    <checkbox-group class="rename-field-grid" bindchange="changeRenameFields">
+      <label
+        class="rename-field {{item.checked ? 'checked' : ''}}"
+        wx:for="{{renameFieldOptions}}"
+        wx:key="id"
+      >
+        <checkbox value="{{item.id}}" checked="{{item.checked}}" color="#176b5b" />
+        <text>{{item.name}}</text>
+      </label>
+    </checkbox-group>
+
+    <view class="rename-options">
+      <label class="rename-switch">
+        <switch checked="{{renameShowIndex}}" color="#176b5b" bindchange="toggleRenameIndex" />
+        <text>显示序号</text>
+      </label>
+      <label class="rename-switch">
+        <switch checked="{{renameIncludeExpenseItem}}" color="#176b5b" bindchange="toggleRenameExpenseItem" />
+        <text>加入收支项目</text>
+      </label>
+      <picker mode="selector" range="{{renameSeparatorOptions}}" range-key="name" value="{{renameSeparatorIndex}}" bindchange="changeRenameSeparator">
+        <view class="rename-picker">
+          <text>分隔符：{{selectedRenameSeparator.name}}</text>
+          <text class="mode-arrow">⌄</text>
+        </view>
+      </picker>
+      <input
+        class="rename-input"
+        value="{{renameCustomText}}"
+        bindinput="changeRenameCustomText"
+        placeholder="自定义内容，可选"
+        placeholder-class="rename-placeholder"
+      />
+    </view>
+
+    <view class="rename-preview">
+      <text class="label muted">文件名预览</text>
+      <view wx:if="{{!renamePreviewEmpty}}" class="preview-list">
+        <view class="preview-row" wx:for="{{renamePreviewRows}}" wx:key="id">
+          <text class="preview-name">{{item.name}}</text>
+          <text class="preview-source muted">{{item.source}}</text>
+        </view>
+      </view>
+      <text wx:else class="rename-empty muted">选择命名字段后显示预览</text>
+    </view>
+
+    <button class="rename-button" loading="{{renaming}}" disabled="{{renameActionDisabled || renaming}}" bindtap="renameInvoices">
+      一键命名已识别文件
+    </button>
+    <text wx:if="{{renameResultText}}" class="rename-result muted">{{renameResultText}}</text>
+  </view>
+
+  <view wx:else class="empty surface">
+    <view class="empty-mark">
+      <text>名</text>
+    </view>
+    <text class="empty-title">暂无可命名文件</text>
+    <text class="empty-copy muted">完成拍照或上传识别后，可以在这里批量命名原件。</text>
+    <button class="primary-button" bindtap="goHome">去识别</button>
+  </view>
+</view>
